@@ -1,5 +1,7 @@
-${a}
-${a==0?"":a}
-${a==0?"":@String.valueOf(a)}
-
-
+<%
+var a =1;
+var b=a+1;
+print(b=2);
+c=1;
+%>
+helo

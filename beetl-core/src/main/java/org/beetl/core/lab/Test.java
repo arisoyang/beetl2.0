@@ -2,6 +2,7 @@ package org.beetl.core.lab;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.beetl.core.Function;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.ResourceLoader;
 import org.beetl.core.Template;
+import org.beetl.core.exception.BeetlException;
 import org.beetl.core.resource.ClasspathResourceLoader;
 import org.beetl.core.statement.PlaceholderST;
 
@@ -32,10 +34,7 @@ public class Test {
 		cfg.getPkgList().add("org.beetl.core.lab.");
 
 		GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
-		String url = "/aa/yy/1";
-		String tt = getRealPath(gt.getResourceLoader(),url);
-		System.out.println("tt="+tt);
-		if(1==1)return ;
+		
 		
 		cfg.setStatementStart("<%");
 		cfg.setStatementEnd("%>");
@@ -45,35 +44,24 @@ public class Test {
 		//
 		gt.registerFunction("test", new TestFun());
 		gt.registerTag("test", TestTag.class);
-		PlaceholderST.output = new PlaceholderST.Output() {
-
-			@Override
-			public void write(Context ctx, Object value) throws IOException {
-				ctx.byteWriter.writeString(value == null ? "null" : value.toString());
-
-			}
-
-		};
 		List list = new ArrayList();
 		list.add(null);
 		list.add(new TestUser("abc"));
 		HashMap map = new HashMap();
 		map.put("key", 123);
 
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 1; i++) {
 
 			Template t = gt.getTemplate("/hello.txt");
 			
-			t.binding("a",0.5);
+//			Template t = gt.getAjaxTemplate("/hello.txt","part1");
 
-			ByteArrayOutputStream bs = new ByteArrayOutputStream();
-			try {
-				t.renderTo(bs);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-			System.out.println(new String(bs.toByteArray()));
+//			TestUser test = new TestUser("a");
+//			test.setLover(new TestUser("b"));
+//			t.binding("user", test);
+			System.out.println(t.render());
+			
+			
 
 		}
 
